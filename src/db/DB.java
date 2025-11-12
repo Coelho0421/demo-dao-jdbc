@@ -18,14 +18,11 @@ public class DB {
         conn.close();
     }
 
-    public static void closeConnection(Connection conn, Statement st) throws Exception{
-        conn.close();
+    public static void PreparetStatmente(Statement st) throws Exception{
         st.close();
     }
 
-    public static void closeConnection(Connection conn, Statement st, ResultSet rs) throws Exception{
-        conn.close();
-        st.close();
+    public static void ResultSet(ResultSet rs) throws Exception{
         rs.close();
     }
 }

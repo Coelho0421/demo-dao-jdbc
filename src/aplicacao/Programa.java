@@ -9,12 +9,14 @@ import java.util.Date;
 
 public class Programa {
 
-    public static void main(String[] args){
+    public static void main(String[] args) throws Exception {
 
         Departamento obj = new Departamento(1, "Livros");
-        Vendedor vendedor = new Vendedor(21, "bob", "bob123@gmail.com", new Date(), 3000.0);
+
 
         VendedorDAO vendedorDAO = DaoFactory.createVendedorDao();
+
+        Vendedor vendedor = vendedorDAO.findById(1);
 
         System.out.println(vendedor);
 
