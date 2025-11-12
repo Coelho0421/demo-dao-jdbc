@@ -2,7 +2,6 @@ package modelo.DAO.impl;
 
 import java.sql.Connection;
 
-import db.DB;
 import db.DbException;
 import modelo.DAO.VendedorDAO;
 import modelo.entitidades.Departamento;
@@ -42,6 +41,7 @@ public class VendedorDaoJDBC implements VendedorDAO {
         ResultSet rs = null;
 
         try{
+
             st = conn.prepareStatement(
                   "SELECT seller.*,department.Name as DepName "
                     + "FROM seller INNER JOIN department "
@@ -51,20 +51,15 @@ public class VendedorDaoJDBC implements VendedorDAO {
             st.setInt(1, id);
             rs = st.executeQuery();
             if(rs.next()){
-                Departamento dep = new Departamento();
-                dep.setId(rs.getInt("DepartmentId"));
-                dep.setNome(rs.getString("DepName"));
-                Vendedor obj = new Vendedor();
 
-                obj.setId(rs.getInt("Id"));
-                obj.setNome(rs.getString("Name"));
-                obj.setEmail(rs.getString("Email"));
-                obj.setSalario(rs.getDouble("BaseSalary"));
-                obj.setAniversario(rs.getDate("BirthDate"));
-                obj.setDepartamento(dep);
+                Departamento dep = instanciateDepartamento(rs);
+                Vendedor obj = instanciateVendedor(rs, dep);
                 return obj;
+
             }
+
             return null;
+
         }
         catch (SQLException e) {
             throw new DbException(e.getMessage());
@@ -74,9 +69,33 @@ public class VendedorDaoJDBC implements VendedorDAO {
         }
     }
 
+    private Vendedor instanciateVendedor(ResultSet rs, Departamento dep) throws SQLException {
+        Vendedor obj = new Vendedor();
+
+        obj.setId(rs.getInt("Id"));
+        obj.setNome(rs.getString("Name"));
+        obj.setEmail(rs.getString("Email"));
+        obj.setSalario(rs.getDouble("BaseSalary"));
+        obj.setAniversario(rs.getDate("BirthDate"));
+        obj.setDepartamento(dep);
+        return obj;
+
+    }
+
+    private Departamento instanciateDepartamento(ResultSet rs) throws SQLException {
+
+        Departamento dep = new Departamento();
+        dep.setId(rs.getInt("DepartmentId"));
+        dep.setNome(rs.getString("DepName"));
+        return dep;
+
+    }
+
     @Override
     public List<Vendedor> findAll() {
+
         return List.of();
+
     }
 }
 
