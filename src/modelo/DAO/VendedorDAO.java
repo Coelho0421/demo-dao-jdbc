@@ -13,5 +13,6 @@ public interface VendedorDAO {
     void deleteById(Integer id);
     Vendedor findById(Integer id) throws Exception;
     List<Vendedor> findAll();
+    List<Vendedor> findByDepartamento(Departamento departamento);
 
 }

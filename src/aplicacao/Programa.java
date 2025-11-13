@@ -6,13 +6,11 @@ import modelo.entitidades.Departamento;
 import modelo.entitidades.Vendedor;
 
 import java.util.Date;
+import java.util.List;
 
 public class Programa {
 
     public static void main(String[] args) throws Exception {
-
-        Departamento obj = new Departamento(1, "Livros");
-
 
         VendedorDAO vendedorDAO = DaoFactory.createVendedorDao();
 
@@ -20,6 +18,14 @@ public class Programa {
         Vendedor vendedor = vendedorDAO.findById(1);
 
         System.out.println(vendedor);
+
+        System.out.println("TEste 2");
+        Departamento departamento = new Departamento(1, null);
+        List<Vendedor> list = vendedorDAO.findByDepartamento(departamento);
+        for(Vendedor obj : list){
+            System.out.println(obj);
+        }
+
 
     }
 }
